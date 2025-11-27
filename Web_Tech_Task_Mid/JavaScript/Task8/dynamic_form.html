@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Dynamic Form Field Display </title>
+        <script src="dynamic_form.js" defer></script>
+    </head>
+
+    <body>
+
+        <fieldset style="width:60%; margin:auto; padding:20px; text-align:center;">
+
+            <label>Select User Type:</label>
+            <select id="userType" onchange="showFields()">
+                <option value="">Select</option>
+                <option value="student">Student</option>
+                <option value="teacher">Teacher</option>
+            </select>
+            <br><br>
+
+            <div id="rollDiv" style="display:none;">
+                <label>Roll Number:</label>
+                <input type="text" id="rollNumber">
+            </div>
+            <br>
+
+            <div id="deptDiv" style="display:none;">
+                <label>Department:</label>
+                <input type="text" id="department">
+            </div>
+
+        </fieldset>
+
+    </body>
+</html>

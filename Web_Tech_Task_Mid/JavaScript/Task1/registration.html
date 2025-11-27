@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Registration Form Validation </title>
+        <script src="registration.js" defer></script>
+    </head>
+
+    <body>
+        
+        <fieldset style="text-align: center;">
+        <form onsubmit="return formValidate()">
+
+            <h2>Registration Form</h2>
+
+           
+            <label>Full Name:</label>
+            <input type="text" id="fullnameTF">
+            <span id="fullnameERR"></span><br><br>
+
+            <label>Email:</label>
+            <input type="text" id="emailTF">
+            <span id="emailERR"></span><br><br>
+
+            <label>Password:</label>
+            <input type="password" id="passwordTF">
+            <span id="passwordERR"></span><br><br>
+
+            <label>Confirm Password:</label>
+            <input type="password" id="confirmTF">
+            <span id="confirmERR"></span><br><br>
+
+            <label>Phone Number:</label>
+            <input type="text" id="phoneTF">
+            <span id="phoneERR"></span><br><br>
+
+
+            <input type="submit" value="Submit">
+
+            
+
+            <p id="successMSG"></p>
+
+        </form>
+        </fieldset>
+    </body>
+</html>

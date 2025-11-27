@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Text Analyzer  </title>
+        <script src="text_analyzer.js" defer></script>
+    </head>
+
+    <body>
+
+        <fieldset style="text-align: center; width: 70%; margin: auto;">
+
+            <h3>Text Analyzer</h3>
+
+            <textarea id="inputText" style="width:90%; height:150px;"></textarea>
+            <br><br>
+
+            <button onclick="analyzeText()">Analyze Text</button>
+
+            <div id="resultBox" style="margin-top:20px; border:1px solid black; padding:10px;">
+                <p>Total Characters: <span id="charCount">0</span></p>
+                <p>Total Words: <span id="wordCount">0</span></p>
+                <p>Reversed Text:</p>
+                <p id="reverseText"></p>
+            </div>
+
+        </fieldset>
+
+    </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Interactive Portfolio Project </title>
+        <script src="portfolio.js" defer></script>
+    </head>
+
+    <body style="font-family: Arial;">
+
+        <button onclick="toggleTheme()" id="themeBtn" style="margin:20px;">Dark Mode</button>
+
+
+        <h2 id="greeting" style="text-align:center;"></h2>
+
+
+        <div style="text-align:center; margin-bottom:20px;">
+            <button onclick="showSection('about')">About</button>
+            <button onclick="showSection('projects')">Projects</button>
+            <button onclick="showSection('contact')">Contact</button>
+        </div>
+
+        <fieldset id="about" style="width:70%; margin:auto; padding:20px; text-align:center;">
+            <h3>About Me</h3>
+            <p>Hello! I am Showrav Ghosh, a Computer Science student at AIUB.I am passionate about programming,
+                web development, and problem solving.I am preparing for internships to grow my skills and contribute 
+                to real-world projects.</p>
+        </fieldset>
+
+        <fieldset id="projects" style="width:70%; margin:auto; padding:20px; text-align:center; display:none;">
+            <h3>Projects</h3>
+            <p>Here are some of my completed works.</p>
+            <a href="https://github.com/showravghosh">Click here for see projects.</a>
+
+        </fieldset>
+
+        <fieldset id="contact" style="width:70%; margin:auto; padding:20px; text-align:center; display:none;">
+            <h3>Contact Me</h3>
+
+            <label>Name:</label>
+            <input type="text" id="nameTF">
+            <span id="nameERR"></span>
+            <br><br>
+
+            <label>Email:</label>
+            <input type="text" id="emailTF">
+            <span id="emailERR"></span>
+            <br><br>
+
+            <label>Message:</label>
+            <textarea id="msgTF"></textarea>
+            <span id="msgERR"></span>
+            <br><br>
+
+            <button onclick="validateForm()">Send</button>
+
+            <p id="successMSG" style="color:green;"></p>
+        </fieldset>
+
+    </body>
+</html>
