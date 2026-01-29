@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dynamic Student List</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(240,242,245);
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+button {
+    padding: 10px 15px;
+    background-color: rgb(76,175,80);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color: rgb(56,142,60);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+th, td {
+    border: 1px solid rgb(200,200,200);
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: rgb(220,220,220);
+}
+.message {
+    color: red;
+    font-weight: bold;
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Student List</h2>
+    <button id="loadBtn">Load Student Data</button>
+    <div id="studentData"></div>
+</div>
+
+<script>
+document.getElementById('loadBtn').addEventListener('click', function() {
+    const dataDiv = document.getElementById('studentData');
+    dataDiv.innerHTML = 'Loading...';
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'get_students.php', true);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState === 4) {
+            if(xhr.status === 200){
+                try {
+                    const students = JSON.parse(xhr.responseText);
+
+                    if(students.error){
+                        dataDiv.innerHTML = `<div class="message">${students.error}</div>`;
+                        return;
+                    }
+
+                    if(students.length === 0){
+                        dataDiv.innerHTML = '<div class="message">No student records found.</div>';
+                        return;
+                    }
+
+                    let table = '<table><tr><th>ID</th><th>Name</th><th>Email</th><th>Department</th></tr>';
+                    students.forEach(s => {
+                        table += `<tr>
+                                    <td>${s.id}</td>
+                                    <td>${s.name}</td>
+                                    <td>${s.email}</td>
+                                    <td>${s.department}</td>
+                                  </tr>`;
+                    });
+                    table += '</table>';
+                    dataDiv.innerHTML = table;
+
+                } catch(e) {
+                    dataDiv.innerHTML = '<div class="message">Error parsing JSON data.</div>';
+                }
+            } else {
+                dataDiv.innerHTML = '<div class="message">AJAX request failed.</div>';
+            }
+        }
+    };
+    xhr.send();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Weather Forecast App</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>7-Day Weather Forecast</h2>
+
+    <div class="controls">
+        <select id="citySelect">
+            <option value="New York">New York</option>
+            <option value="London">London</option>
+            <option value="Tokyo">Tokyo</option>
+            <option value="Paris">Paris</option>
+            <option value="Sydney">Sydney</option>
+        </select>
+        <button id="toggleUnit">°C / °F</button>
+        <button id="refreshBtn">Refresh</button>
+    </div>
+    <div id="dateTime"></div>
+
+    <div id="forecast"></div>
+</div>
+
+<script>
+let unit = 'C'; // Celsius by default
+
+function updateDateTime() {
+    const now = new Date();
+    document.getElementById('dateTime').textContent = now.toLocaleString();
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
+
+function fetchWeather(city) {
+    const forecastDiv = document.getElementById('forecast');
+    forecastDiv.innerHTML = 'Loading...';
+
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', `weather.php?city=${encodeURIComponent(city)}`, true);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState===4){
+            if(xhr.status===200){
+                try{
+                    const res = JSON.parse(xhr.responseText);
+                    displayForecast(res.forecast);
+                }catch(e){
+                    forecastDiv.innerHTML = 'Error parsing data!';
+                }
+            }else{
+                forecastDiv.innerHTML = 'Failed to fetch data!';
+            }
+        }
+    };
+    xhr.send();
+}
+
+function displayForecast(forecast){
+    const div = document.getElementById('forecast');
+    div.innerHTML = '';
+    if(forecast.length===0){ div.innerHTML='No data'; return; }
+
+    let temps = forecast.map(f=>f.temp_high);
+    let hottest = Math.max(...temps);
+    let coldest = Math.min(...temps);
+    let sum = temps.reduce((a,b)=>a+b,0);
+    let avg = (sum/temps.length).toFixed(1);
+
+    forecast.forEach(f=>{
+        let high = unit==='C'? f.temp_high : f.temp_high*9/5+32;
+        let low = unit==='C'? f.temp_low : f.temp_low*9/5+32;
+        let card = document.createElement('div');
+        card.className='card';
+        if(f.temp_high===hottest) card.classList.add('highlight');
+        card.innerHTML = `<h4>${new Date(f.date).toLocaleDateString('en-US',{weekday:'short'})}</h4>
+                          <div style="font-size:2em">${f.icon}</div>
+                          <p>High: ${Math.round(high)}°${unit}</p>
+                          <p>Low: ${Math.round(low)}°${unit}</p>
+                          <p>${f.condition}</p>
+                          <p>Humidity: ${f.humidity}%</p>
+                          <p>Wind: ${f.wind_speed} km/h</p>`;
+        div.appendChild(card);
+        setTimeout(()=>card.classList.add('show'), 50);
+    });
+
+    console.log(`Average Temp: ${avg}°${unit}`);
+}
+
+document.getElementById('citySelect').addEventListener('change', ()=> fetchWeather(document.getElementById('citySelect').value));
+document.getElementById('refreshBtn').addEventListener('click', ()=> fetchWeather(document.getElementById('citySelect').value));
+document.getElementById('toggleUnit').addEventListener('click', ()=>{
+    unit = (unit==='C')?'F':'C';
+    fetchWeather(document.getElementById('citySelect').value);
+});
+
+fetchWeather(document.getElementById('citySelect').value);
+</script>
+
+</body>
+</html>

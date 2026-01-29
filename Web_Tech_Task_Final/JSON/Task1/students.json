@@ -1,0 +1,59 @@
+{
+  "students": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john@example.com",
+      "courses": [
+        {"code": "CSC101", "name": "Programming", "grade": 85, "credits": 3},
+        {"code": "MAT201", "name": "Calculus", "grade": 78, "credits": 4}
+      ],
+      "gpa": 3.5,
+      "semester": "Fall 2024"
+    },
+    {
+      "id": 2,
+      "name": "Arpon Paul",
+      "email": "arponi@example.com",
+      "courses": [
+        {"code": "CSC102", "name": "Data Structures", "grade": 92, "credits": 3},
+        {"code": "PHY101", "name": "Physics", "grade": 88, "credits": 4}
+      ],
+      "gpa": 3.8,
+      "semester": "Fall 2024"
+    },
+    {
+      "id": 3,
+      "name": "Abtahi Islam",
+      "email": "abtahi@example.com",
+      "courses": [
+        {"code": "CSC101", "name": "Programming", "grade": 75, "credits": 3},
+        {"code": "MAT201", "name": "Calculus", "grade": 82, "credits": 4}
+      ],
+      "gpa": 3.2,
+      "semester": "Spring 2025"
+    },
+    {
+      "id": 4,
+      "name": "Showrav Ghosh",
+      "email": "showrav@example.com",
+      "courses": [
+        {"code": "CSC103", "name": "Algorithms", "grade": 90, "credits": 3},
+        {"code": "MAT202", "name": "Linear Algebra", "grade": 85, "credits": 4}
+      ],
+      "gpa": 3.9,
+      "semester": "Spring 2025"
+    },
+    {
+      "id": 5,
+      "name": "Emma Brown",
+      "email": "emma@example.com",
+      "courses": [
+        {"code": "CSC104", "name": "Databases", "grade": 88, "credits": 3},
+        {"code": "ENG101", "name": "English", "grade": 92, "credits": 2}
+      ],
+      "gpa": 3.6,
+      "semester": "Fall 2024"
+    }
+  ]
+}

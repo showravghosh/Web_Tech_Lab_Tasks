@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(240,242,245);
+    margin: 0;
+    padding: 0;
+}
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 20px auto;
+}
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+input, select {
+    padding: 8px;
+    margin: 5px 0 15px 0;
+    border-radius: 5px;
+    border: 1px solid rgb(200,200,200);
+}
+.student-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 15px;
+    width: 220px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.card:hover {
+    transform: scale(1.05);
+}
+.highlight {
+    border: 2px solid rgb(76,175,80);
+}
+.card h3 {
+    margin: 5px 0;
+}
+.card p {
+    margin: 3px 0;
+}
+#detailView {
+    background: white;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+table, th, td {
+    border: 1px solid rgb(200,200,200);
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+}

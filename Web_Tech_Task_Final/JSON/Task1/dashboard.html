@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h2>Student Dashboard</h2>
+
+    <input type="text" id="searchInput" placeholder="Search by name">
+    <select id="semesterFilter">
+        <option value="">All Semesters</option>
+    </select>
+    <select id="sortSelect">
+        <option value="name">Sort by Name</option>
+        <option value="gpa">Sort by GPA (High to Low)</option>
+    </select>
+
+    <div class="student-cards" id="studentCards"></div>
+    <div id="detailView"></div>
+</div>
+
+<script>
+let students = [];
+let semesters = new Set();
+
+fetch('students.json')
+.then(res => res.json())
+.then(data => {
+    students = data.students;
+    students.forEach(s => semesters.add(s.semester));
+    populateSemesterFilter();
+    renderCards(students);
+});
+
+function populateSemesterFilter(){
+    const filter = document.getElementById('semesterFilter');
+    semesters.forEach(sem => {
+        const option = document.createElement('option');
+        option.value = sem;
+        option.textContent = sem;
+        filter.appendChild(option);
+    });
+}
+
+// Render student cards
+function renderCards(list){
+    const container = document.getElementById('studentCards');
+    container.innerHTML = '';
+    list.forEach(s => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        if(s.gpa > 3.5) card.classList.add('highlight');
+        card.innerHTML = `<h3>${s.name}</h3>
+                          <p>Email: ${s.email}</p>
+                          <p>GPA: ${s.gpa}</p>
+                          <p>Semester: ${s.semester}</p>
+                          <p>Courses: ${s.courses.length}</p>`;
+        card.addEventListener('click', ()=> showDetail(s));
+        container.appendChild(card);
+    });
+}
+
+// Detailed view
+function showDetail(student){
+    const detail = document.getElementById('detailView');
+    let totalCredits = 0;
+    let gradeDist = {A:0,B:0,C:0,D:0,F:0};
+
+    let rows = '';
+    student.courses.forEach(c => {
+        totalCredits += c.credits;
+        let gradeLetter = '';
+        if(c.grade >= 90) gradeLetter='A';
+        else if(c.grade>=80) gradeLetter='B';
+        else if(c.grade>=70) gradeLetter='C';
+        else if(c.grade>=60) gradeLetter='D';
+        else gradeLetter='F';
+        gradeDist[gradeLetter]++;
+        rows += `<tr>
+                    <td>${c.code}</td>
+                    <td>${c.name}</td>
+                    <td>${c.grade}</td>
+                    <td>${c.credits}</td>
+                    <td>${gradeLetter}</td>
+                 </tr>`;
+    });
+
+    detail.innerHTML = `<h3>${student.name} - Details</h3>
+                        <table>
+                          <tr><th>Code</th><th>Course</th><th>Grade</th><th>Credits</th><th>Letter</th></tr>
+                          ${rows}
+                        </table>
+                        <p>Total Credits: ${totalCredits}</p>
+                        <p>Grade Distribution: A:${gradeDist.A}, B:${gradeDist.B}, C:${gradeDist.C}, D:${gradeDist.D}, F:${gradeDist.F}</p>
+                        <p>GPA: ${student.gpa}</p>`;
+}
+
+// Search and filter
+document.getElementById('searchInput').addEventListener('input', function(){
+    filterAndSort();
+});
+document.getElementById('semesterFilter').addEventListener('change', function(){
+    filterAndSort();
+});
+document.getElementById('sortSelect').addEventListener('change', function(){
+    filterAndSort();
+});
+
+function filterAndSort(){
+    let searchText = document.getElementById('searchInput').value.toLowerCase();
+    let semester = document.getElementById('semesterFilter').value;
+    let sortBy = document.getElementById('sortSelect').value;
+
+    let filtered = students.filter(s=>{
+        return s.name.toLowerCase().includes(searchText) && 
+               (semester === '' || s.semester === semester);
+    });
+
+    if(sortBy === 'gpa'){
+        filtered.sort((a,b)=>b.gpa - a.gpa);
+    } else {
+        filtered.sort((a,b)=>a.name.localeCompare(b.name));
+    }
+
+    renderCards(filtered);
+}
+</script>
+
+</body>
+</html>
